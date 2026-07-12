@@ -2,7 +2,6 @@ package com.suraev.OnlineBokingManagement.entities;
 
 import jakarta.persistence.*;
 
-@Entity
 @Table(name = "serv_list")
 public class Service {
     @Id

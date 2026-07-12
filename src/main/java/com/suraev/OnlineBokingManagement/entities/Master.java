@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity
 @Table(name = "masters")
 public class Master {
     @Id

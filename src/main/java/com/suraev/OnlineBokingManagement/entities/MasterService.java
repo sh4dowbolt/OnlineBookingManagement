@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.Duration;
 
-@Entity
 @Table(name = "master_services")
 public class MasterService {
     @Id
