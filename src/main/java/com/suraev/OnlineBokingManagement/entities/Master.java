@@ -22,7 +22,7 @@ public class Master {
     private List<Service> services;
     @OneToOne
     @PrimaryKeyJoinColumn(name = "brnch_id")
-    private BranchService branchService;
+    private Branch branchService;
     //private List<Review> reviews;
 
 }

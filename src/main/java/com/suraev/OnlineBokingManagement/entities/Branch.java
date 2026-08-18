@@ -3,7 +3,6 @@ package com.suraev.OnlineBokingManagement.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -11,8 +10,8 @@ import java.util.List;
 @Table(name = "branches")
 @Getter
 @Setter
-public class BranchService {
-    @jakarta.persistence.Id
+public class Branch {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "brnch_id")
@@ -24,13 +23,15 @@ public class BranchService {
     private String phoneNumber;
     private String description;
 
-
-/*
+    @OneToMany
     private List<Master> masters;
+    /*@OneToMany
     private List<Review> reviews;
-    private List<Photo> portfolio;
+    @OneToMany
+    private List<Photo> portfolio;*/
+    @OneToMany
     private List<Service> services;
-*/
+
 
 
 

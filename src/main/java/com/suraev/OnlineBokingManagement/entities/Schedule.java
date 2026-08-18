@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Schedule {
     private Long id;
-    private BranchService branchService;
+    private Branch branchService;
     private Date workingDate;
     private List<DaySchedule> daySchedules;
 }
