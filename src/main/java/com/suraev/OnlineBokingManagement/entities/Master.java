@@ -20,8 +20,8 @@ public class Master {
     //private List<RateNumber> totalRate;
     @OneToMany
     private List<Service> services;
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "brnch_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id")
     private Branch branchService;
     //private List<Review> reviews;
 

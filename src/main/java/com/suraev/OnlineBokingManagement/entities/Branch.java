@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Branch {
     private String phoneNumber;
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "branchService",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Master> masters;
     /*@OneToMany
     private List<Review> reviews;
@@ -32,6 +33,18 @@ public class Branch {
     @OneToMany
     private List<Service> services;
 
+
+    public boolean addMaster(Master master) {
+        if (masters == null) {
+            masters = new ArrayList<>();
+            masters.add(master);
+            return true;
+        }
+        else {
+            masters.add(master);
+            return true;
+        }
+    }
 
 
 
