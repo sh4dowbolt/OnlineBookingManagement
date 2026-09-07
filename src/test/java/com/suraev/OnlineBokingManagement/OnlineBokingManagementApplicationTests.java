@@ -8,8 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 
 
-@SpringBootTest(classes = {OnlineBokingManagementApplicationTests.class})
-//@ActiveProfiles("test")
+@SpringBootTest
+@ActiveProfiles("test")
 
 class OnlineBokingManagementApplicationTests extends TestConfig {
 

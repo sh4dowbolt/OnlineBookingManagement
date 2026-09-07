@@ -1,8 +1,7 @@
 package com.suraev.OnlineBokingManagement.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -10,6 +9,9 @@ import java.util.List;
 @Table(name = "masters")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Master {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
