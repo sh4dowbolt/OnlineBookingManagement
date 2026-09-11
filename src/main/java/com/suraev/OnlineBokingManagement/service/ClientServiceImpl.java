@@ -3,6 +3,7 @@ package com.suraev.OnlineBokingManagement.service;
 import com.suraev.OnlineBokingManagement.entities.Client;
 import com.suraev.OnlineBokingManagement.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Service
 public class ClientServiceImpl implements ClientService {
 
+    @Autowired
     private ClientRepository clientRepository;
 
     public ClientServiceImpl(ClientRepository clientRepository) {

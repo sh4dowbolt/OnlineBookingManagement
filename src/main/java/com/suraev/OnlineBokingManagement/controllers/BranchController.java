@@ -1,3 +1,4 @@
+/*
 package com.suraev.OnlineBokingManagement.controllers;
 
 import com.suraev.OnlineBokingManagement.entities.Branch;
@@ -23,3 +24,4 @@ public class BranchController {
        return ResponseEntity.ok(branchService.saveBranch(branch));
     }
 }
+*/
