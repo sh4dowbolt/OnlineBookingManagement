@@ -2,7 +2,6 @@ package com.suraev.OnlineBokingManagement.service;
 
 import com.suraev.OnlineBokingManagement.entities.Client;
 import com.suraev.OnlineBokingManagement.repository.ClientRepository;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +44,7 @@ class ClientServiceImplTest  {
                 () -> assertThat(result.getUsername()).isEqualTo(clientSaved.getUsername()),
                 () -> assertThat(result.getPassword()).isEqualTo(clientSaved.getPassword()),
                 () -> assertThat(result.getId()).isEqualTo(clientSaved.getId()));
-        verify(clientRepository, times(1)).save(any(Client.class));
+        verify(clientRepository).save(any(Client.class));
     }
     @Test
     void getClientById_shouldReturnClientIfClientExists() {
@@ -65,7 +64,7 @@ class ClientServiceImplTest  {
         assertThat(optionalClient.get().getPassword()).isEqualTo(client.getPassword());
         assertThat(optionalClient.get().getId()).isEqualTo(client.getId());
 
-        verify(clientRepository, times(1)).getClientById(anyLong());
+        verify(clientRepository).getClientById(anyLong());
 
 
     }
@@ -80,7 +79,7 @@ class ClientServiceImplTest  {
 
         assertThat(optionalClient).isNotPresent();
 
-        verify(clientRepository, times(1)).getClientById(anyLong());
+        verify(clientRepository).getClientById(anyLong());
 
     }
 /*
@@ -120,7 +119,7 @@ class ClientServiceImplTest  {
         Assertions.assertAll(
                 ()-> assertThat(result).isNotNull(),
                 ()->assertThat(result.size()).isEqualTo(2),
-                ()-> verify(clientRepository, times(1)).findAll()
+                ()-> verify(clientRepository).findAll()
         );
     }
     @Test
@@ -134,7 +133,7 @@ class ClientServiceImplTest  {
         Assertions.assertAll(
                 () ->  assertThat(result.size()).isEqualTo(0),
                 () ->  assertThat(result.isEmpty()),
-                () -> verify(clientRepository, times(1)).findAll()
+                () -> verify(clientRepository).findAll()
         );
     }
 
@@ -145,7 +144,7 @@ class ClientServiceImplTest  {
 
         clientService.deleteClient(clientId);
 
-        verify(clientRepository, times(1)).deleteById(anyLong());
+        verify(clientRepository).deleteById(anyLong());
     }
 
    /* @Test

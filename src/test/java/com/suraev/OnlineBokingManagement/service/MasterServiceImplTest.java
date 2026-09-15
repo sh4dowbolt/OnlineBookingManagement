@@ -2,16 +2,14 @@ package com.suraev.OnlineBokingManagement.service;
 
 import com.suraev.OnlineBokingManagement.entities.Master;
 import com.suraev.OnlineBokingManagement.repository.MasterRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +33,7 @@ class MasterServiceImplTest {
         Master result = masterServiceImpl.createMaster(master);
 
         assertAll(
-                () -> Mockito.verify(masterRepository, Mockito.times(1)).save(any(Master.class)),
+                () -> verify(masterRepository).save(any(Master.class)),
                 () -> assertThat(result.getId()).isNotNull(),
                 () -> assertThat(result.getName()).isEqualTo(master.getName())
         );
@@ -48,7 +46,7 @@ class MasterServiceImplTest {
 
         masterServiceImpl.deleteMaster(masterId);
 
-        verify(masterRepository, times(1)).deleteById(eq(masterId));
+        verify(masterRepository).deleteById(eq(masterId));
 
     }
 

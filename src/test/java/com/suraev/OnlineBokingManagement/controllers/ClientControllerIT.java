@@ -3,11 +3,8 @@ package com.suraev.OnlineBokingManagement.controllers;
 import com.suraev.OnlineBokingManagement.entities.Client;
 import com.suraev.OnlineBokingManagement.service.ClientService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -32,7 +29,6 @@ class ClientControllerIT {
     private  ObjectMapper mapper;
 
 
-
     private final String CLIENT_URI = "/client";
     private final String CLIENT_ADD = "/add";
 
@@ -40,7 +36,7 @@ class ClientControllerIT {
     void createClient_shouldReturn200IfEverythingIsOk() throws Exception {
 
         //given
-        Client client = getClient();
+        Client client = createClient();
 
         Mockito.when(service.addClient(any(Client.class))).thenReturn(client);
 
@@ -49,12 +45,24 @@ class ClientControllerIT {
                         .content(mapper.writeValueAsString(client)))
                 .andExpect(status().isCreated());
 
-        verify(service, Mockito.times(1))
-                .addClient(any(Client.class));
+        verify(service).addClient(any(Client.class));
 
     }
 
-    private static Client getClient() {
+    @Test
+    void deleteClientById_shouldReturnNoContentHttpStatusCode() throws Exception {
+
+        Long id = 1L;
+
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(CLIENT_URI+"/delete/{id}", id))
+                .andExpect(status().isNoContent());
+
+        verify(service).deleteClient(id);
+
+    }
+
+    private static Client createClient() {
         return Client.builder()
                 .id(1L)
                 .password("password")

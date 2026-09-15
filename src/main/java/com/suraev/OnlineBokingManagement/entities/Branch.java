@@ -1,8 +1,7 @@
 package com.suraev.OnlineBokingManagement.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,9 @@ import java.util.List;
 @Table(name = "branches")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Branch {
 
     @Id

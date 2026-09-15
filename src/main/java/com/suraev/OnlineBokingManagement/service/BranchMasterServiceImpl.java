@@ -3,17 +3,16 @@ package com.suraev.OnlineBokingManagement.service;
 import com.suraev.OnlineBokingManagement.entities.Branch;
 import com.suraev.OnlineBokingManagement.entities.Master;
 import com.suraev.OnlineBokingManagement.exception.NotFoundException;
-import com.suraev.OnlineBokingManagement.repository.BranchServiceRepository;
+import com.suraev.OnlineBokingManagement.repository.BranchRepository;
 import com.suraev.OnlineBokingManagement.repository.MasterRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BranchMasterServiceImpl implements BranchMasterService {
-    private final BranchServiceRepository branchServiceRepository;
+    private final BranchRepository branchServiceRepository;
     private final MasterRepository masterRepository;
 
-    public BranchMasterServiceImpl(BranchServiceRepository branchServiceRepository, MasterRepository masterRepository) {
+    public BranchMasterServiceImpl(BranchRepository branchServiceRepository, MasterRepository masterRepository) {
         this.branchServiceRepository = branchServiceRepository;
         this.masterRepository = masterRepository;
     }

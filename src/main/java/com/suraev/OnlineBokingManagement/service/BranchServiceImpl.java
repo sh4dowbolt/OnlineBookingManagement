@@ -1,16 +1,15 @@
-/*
 package com.suraev.OnlineBokingManagement.service;
 
 import com.suraev.OnlineBokingManagement.entities.Branch;
-import com.suraev.OnlineBokingManagement.repository.BranchServiceRepository;
+import com.suraev.OnlineBokingManagement.repository.BranchRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BranchServiceImpl implements BranchService {
 
-    private final BranchServiceRepository branchServiceRepository;
+    private final BranchRepository branchServiceRepository;
 
-    public BranchServiceImpl(BranchServiceRepository branchServiceRepository) {
+    public BranchServiceImpl(BranchRepository branchServiceRepository) {
         this.branchServiceRepository = branchServiceRepository;
     }
 
@@ -19,4 +18,3 @@ public class BranchServiceImpl implements BranchService {
         return branchServiceRepository.save(branch);
     }
 }
-*/
