@@ -7,6 +7,8 @@ import com.suraev.OnlineBokingManagement.repository.BranchRepository;
 import com.suraev.OnlineBokingManagement.repository.MasterRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.NotActiveException;
+
 @Service
 public class BranchMasterServiceImpl implements BranchMasterService {
     private final BranchRepository branchServiceRepository;
@@ -20,7 +22,7 @@ public class BranchMasterServiceImpl implements BranchMasterService {
     @Override
     public Master addMasterRightToBranch(Long branchId, Master master) {
         final var branch = branchServiceRepository.findById(branchId)
-                .orElseThrow(NotFoundException::new);
+                .orElseThrow(() -> new NotFoundException("Branch with id " + branchId + " not found"));
         //TODO добавить обработку искючения
         Master masterFromDB = masterRepository.save(master);
 
@@ -33,9 +35,9 @@ public class BranchMasterServiceImpl implements BranchMasterService {
 
     @Override
     public Master linkMasterToBranch(Long branchId, Long masterId) {
-        Branch branch = branchServiceRepository.findById(branchId).orElseThrow(NotFoundException::new);
+        Branch branch = branchServiceRepository.findById(branchId).orElseThrow(() -> new NotFoundException("Branch with id " + branchId + " not found"));
 
-        Master master = masterRepository.findById(masterId).orElseThrow(NotFoundException::new);
+        Master master = masterRepository.findById(masterId).orElseThrow(() -> new NotFoundException("Master with id " + masterId + " not found"));
         master.setBranchService(branch);
 
         branch.addMaster(master);
