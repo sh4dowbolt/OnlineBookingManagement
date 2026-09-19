@@ -21,12 +21,12 @@ public class BranchMasterServiceImpl implements BranchMasterService {
     public Master addMasterRightToBranch(Long branchId, Master master) {
         final var branch = branchServiceRepository.findById(branchId)
                 .orElseThrow(NotFoundException::new);
-        ///
+        //TODO добавить обработку искючения
         Master masterFromDB = masterRepository.save(master);
 
         branch.addMaster(masterFromDB);
-        ///
-        Branch branchFromDb = branchServiceRepository.save(branch);
+
+        branchServiceRepository.save(branch);
 
         return masterFromDB;
     }
@@ -38,9 +38,9 @@ public class BranchMasterServiceImpl implements BranchMasterService {
         Master master = masterRepository.findById(masterId).orElseThrow(NotFoundException::new);
         master.setBranchService(branch);
 
-
         branch.addMaster(master);
-        Branch branchFromDb = branchServiceRepository.save(branch);
+        branchServiceRepository.save(branch);
+        masterRepository.save(master);
 
         return master;
     }
