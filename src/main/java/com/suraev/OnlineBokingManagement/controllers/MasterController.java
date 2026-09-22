@@ -21,20 +21,20 @@ public class MasterController {
         return ResponseEntity.ok(masterService.createMaster(master));
     }
 
-    @PostMapping("/add/{branchId}/")
+    @PostMapping("/add/{branchId}")
     public ResponseEntity<Master>createMasterRightInBranch(@RequestBody Master master, @PathVariable Long branchId) {
         Master masterFromDb = branchMasterService.addMasterRightToBranch(branchId, master);
-        return ResponseEntity.ok(masterFromDb);
+        return new ResponseEntity<>(masterFromDb, HttpStatus.CREATED);
     }
 
     @PostMapping("/add/{branchId}/links/{masterId}")
     public ResponseEntity<Master> linkMasterToBranch(@PathVariable Long branchId, @PathVariable Long masterId) {
         Master masterFromDb = branchMasterService.linkMasterToBranch(branchId, masterId);
-        return ResponseEntity.ok(masterFromDb);
+        return new ResponseEntity<>(masterFromDb, HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteMaster(@PathVariable int id) {
-
+    public ResponseEntity<Void> deleteMaster(@PathVariable Long id) {
+        masterService.deleteMaster(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
