@@ -17,7 +17,7 @@ brnch_brnch_id :Long
 Поля id :Long, description varchar2, duration :Integer, price :BigDecimal, mstr_mstr_id :Long
 - создать эндпоинт для создания услуг на мастере. Необходимо будет брать существующую услугу с бренча, обновлять
 свдениями по конкретному мастеру. Будет принимать Service c измененим по нему duration, price.
-В энпоинт передавать ид мастера, Service обновленный.
+В энпоинт передавать ид мастера, Service обновленный
 
 
 
