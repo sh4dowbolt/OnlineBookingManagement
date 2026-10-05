@@ -32,7 +32,9 @@ public class Branch {
     private List<Review> reviews;
     @OneToMany
     private List<Photo> portfolio;*/
+
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+
     private List<Service> services;
 
 
@@ -53,6 +55,7 @@ public class Branch {
         service.setBranch(this);
         services.add(service);
 
+        service.setBranch(this);
 
         return true;
     }
