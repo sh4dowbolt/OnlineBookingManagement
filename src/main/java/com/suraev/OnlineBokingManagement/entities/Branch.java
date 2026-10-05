@@ -39,14 +39,20 @@ public class Branch {
     public boolean addMaster(Master master) {
         if (masters == null) {
             masters = new ArrayList<>();
-            masters.add(master);
-            return true;
         }
-        else {
-            masters.add(master);
-            return true;
-        }
+        masters.add(master);
+        return true;
     }
+
+    public boolean addService(Service service) {
+        if (services == null) {
+            services = new ArrayList<>();
+        }
+        services.add(service);
+        return true;
+    }
+
+
 
 
 
