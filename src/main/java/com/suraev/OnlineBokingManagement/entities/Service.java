@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "serv_list")
+@Table(name = "branch_services")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +17,8 @@ public class Service {
     @Column(name = "def")
     private String name;
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
 
 }

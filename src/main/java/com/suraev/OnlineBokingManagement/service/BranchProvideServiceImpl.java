@@ -24,6 +24,7 @@ public class BranchProvideServiceImpl implements BranchProvideService {
 
     @Override
     public com.suraev.OnlineBokingManagement.entities.Service getServiceById(Long id) {
+
         return null;
     }
 
@@ -33,7 +34,11 @@ public class BranchProvideServiceImpl implements BranchProvideService {
     }
 
     @Override
-    public com.suraev.OnlineBokingManagement.entities.Service addService(com.suraev.OnlineBokingManagement.entities.Service service) {
-        return null;
+    public Branch addService(Long branchId,com.suraev.OnlineBokingManagement.entities.Service service) {
+        Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new NotFoundException("Branch with id " + branchId + " does not exist"));
+        branch.addService(service);
+
+       return branchRepository.save(branch);
+
     }
 }
