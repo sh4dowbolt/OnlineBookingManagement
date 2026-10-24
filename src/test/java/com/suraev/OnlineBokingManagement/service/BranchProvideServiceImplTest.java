@@ -85,6 +85,65 @@ class BranchProvideServiceImplTest {
 
     }
 
+    @Nested
+    @DisplayName("addService method")
+    class addService {
+
+        @Test
+        void addService_shouldAddService_whenBranchExists() {
+
+            Long branchId = 1L;
+            Service serviceToSave = createServiceWithoutId();
+
+
+            Branch branchWithOutService = createBranch(branchId, null);
+
+
+            when(branchRepository.findById(branchId)).thenReturn(Optional.of(branchWithOutService));
+            when(branchRepository.save(any(Branch.class))).thenAnswer(
+                    inv -> inv.getArgument(0));
+
+            Branch actualResult = branchProvideServiceImpl.addService(branchId, serviceToSave);
+
+            assertAll(
+                    () -> assertThat(actualResult.getServices()).hasSize(1),
+                    () -> assertThat(actualResult.getServices().stream().anyMatch(
+                            x -> x.getDescription().equals(serviceToSave.getDescription())
+                    ))
+            );
+
+            verify(branchRepository).findById(branchId);
+            verify(branchRepository).save(argThat(
+                    x -> x.getServices().get(0).getDescription().equals(serviceToSave.getDescription())
+            ));
+
+        }
+
+        @Test
+        void addService_shouldThrowNotFoundException_whenBranchDoesNotExist() {
+            Long branchId = 1L;
+
+            when(branchRepository.findById(branchId)).thenReturn(Optional.empty());
+
+
+            assertThatThrownBy( ()-> branchProvideServiceImpl.addService(branchId, createServiceWithoutId()))
+                    .isInstanceOf(NotFoundException.class);//.hasMessage("Branch with id " + branchId + " does not exist");
+                                        // "Branch with id " + branchId + " does not exist"
+            verify(branchRepository).findById(branchId);
+            verifyNoMoreInteractions(branchRepository);
+
+
+        }
+
+    }
+
+    private static Service createServiceWithId(Branch branchWithOutService) {
+        return Service.builder().id(1L).description("boosting").branch(branchWithOutService).build();
+    }
+
+    private static Service createServiceWithoutId() {
+        return Service.builder().description("boosting").build();
+    }
 
 
     private static Branch createBranch(Long branchId, List<Service> serviceList) {

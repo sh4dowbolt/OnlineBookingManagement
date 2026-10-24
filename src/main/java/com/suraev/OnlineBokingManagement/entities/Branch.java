@@ -26,13 +26,13 @@ public class Branch {
     private String phoneNumber;
     private String description;
 
-    @OneToMany(mappedBy = "branchService",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "branchService",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Master> masters;
     /*@OneToMany
     private List<Review> reviews;
     @OneToMany
     private List<Photo> portfolio;*/
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Service> services;
 
 
@@ -50,8 +50,9 @@ public class Branch {
         if (services == null) {
             services = new ArrayList<>();
         }
-        services.add(service);
         service.setBranch(this);
+        services.add(service);
+
 
         return true;
     }

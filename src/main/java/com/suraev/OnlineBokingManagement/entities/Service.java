@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "serv_list")
+@Table(name = "branch_services")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
