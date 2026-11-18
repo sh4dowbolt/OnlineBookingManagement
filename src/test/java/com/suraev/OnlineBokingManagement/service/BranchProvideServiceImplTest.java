@@ -1,21 +1,18 @@
 package com.suraev.OnlineBokingManagement.service;
 
 import com.suraev.OnlineBokingManagement.entities.Branch;
-import com.suraev.OnlineBokingManagement.entities.Service;
+import com.suraev.OnlineBokingManagement.entities.BranchService;
 import com.suraev.OnlineBokingManagement.exception.NotFoundException;
 import com.suraev.OnlineBokingManagement.repository.BranchRepository;
-import org.assertj.core.api.AbstractThrowableAssert;
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +20,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,20 +39,20 @@ class BranchProvideServiceImplTest {
 
             Long branchId = 1L;
 
-            List<Service> serviceList = List.of(
-                    Service.builder().id(1L).description("boosting").build(),
-                    Service.builder().id(2L).description("deboosting").build());
+            List<BranchService> branchServiceList = List.of(
+                    BranchService.builder().id(1L).description("boosting").build(),
+                    BranchService.builder().id(2L).description("deboosting").build());
 
-            Branch branch = createBranch(branchId, serviceList);
+            Branch branch = createBranch(branchId, branchServiceList);
 
             when(branchRepository.findById(branchId)).thenReturn(Optional.of(branch));
 
-            List<Service> actualResult = branchProvideServiceImpl.getAllServices(1L);
+            List<BranchService> actualResult = branchProvideServiceImpl.getAllServices(1L);
 
             assertAll(
                     () -> assertThat(actualResult).hasSize(2),
                     () -> assertThat(actualResult)
-                            .extracting(Service::getId,Service::getDescription)
+                            .extracting(BranchService::getId, BranchService::getDescription)
                             .containsExactlyInAnyOrder(
                                     tuple(1L, "boosting"),
                                     tuple(2L, "deboosting")
@@ -83,6 +79,26 @@ class BranchProvideServiceImplTest {
 
         }
 
+        @Test
+        void getAllBranches_shouldReturnEmptyList_whenBranchDoesNotContainService() {
+
+
+            Long branchId = 1L;
+            Branch branch = createBranch(branchId, Collections.emptyList());
+
+
+            when(branchRepository.findById(branchId)).thenReturn(Optional.of(branch));
+
+            List<BranchService> actualResult = branchProvideServiceImpl.getAllServices(branchId);
+
+            assertThat(actualResult).isEmpty();
+
+
+            verify(branchRepository).findById(1L);
+            verifyNoMoreInteractions(branchRepository);
+
+        }
+
     }
 
     @Nested
@@ -93,7 +109,7 @@ class BranchProvideServiceImplTest {
         void addService_shouldAddService_whenBranchExists() {
 
             Long branchId = 1L;
-            Service serviceToSave = createServiceWithoutId();
+            BranchService branchServiceToSave = createServiceWithoutId();
 
 
             Branch branchWithOutService = createBranch(branchId, null);
@@ -103,18 +119,17 @@ class BranchProvideServiceImplTest {
             when(branchRepository.save(any(Branch.class))).thenAnswer(
                     inv -> inv.getArgument(0));
 
-            Branch actualResult = branchProvideServiceImpl.addService(branchId, serviceToSave);
+            BranchService actualResult = branchProvideServiceImpl.addService(branchId, branchServiceToSave);
 
             assertAll(
-                    () -> assertThat(actualResult.getServices()).hasSize(1),
-                    () -> assertThat(actualResult.getServices().stream().anyMatch(
-                            x -> x.getDescription().equals(serviceToSave.getDescription())
-                    ))
+                    () -> assertThat(actualResult.getId()).isEqualTo(1L),
+                    () -> assertThat(actualResult.getDescription().equals(branchServiceToSave.getDescription()))
+
             );
 
             verify(branchRepository).findById(branchId);
             verify(branchRepository).save(argThat(
-                    x -> x.getServices().get(0).getDescription().equals(serviceToSave.getDescription())
+                    x -> x.getBranchServices().get(0).getDescription().equals(branchServiceToSave.getDescription())
             ));
 
         }
@@ -137,17 +152,17 @@ class BranchProvideServiceImplTest {
 
     }
 
-    private static Service createServiceWithId(Branch branchWithOutService) {
-        return Service.builder().id(1L).description("boosting").branch(branchWithOutService).build();
+    private static BranchService createServiceWithId(Branch branchWithOutService) {
+        return BranchService.builder().id(1L).description("boosting").branch(branchWithOutService).build();
     }
 
-    private static Service createServiceWithoutId() {
-        return Service.builder().description("boosting").build();
+    private static BranchService createServiceWithoutId() {
+        return BranchService.builder().description("boosting").build();
     }
 
 
-    private static Branch createBranch(Long branchId, List<Service> serviceList) {
-        return Branch.builder().id(branchId).services(serviceList).build();
+    private static Branch createBranch(Long branchId, List<BranchService> branchServiceList) {
+        return Branch.builder().id(branchId).branchServices(branchServiceList).build();
     }
 
 

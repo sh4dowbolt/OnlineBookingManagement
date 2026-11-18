@@ -1,16 +1,12 @@
 package com.suraev.OnlineBokingManagement.controllers;
 
 
-import com.suraev.OnlineBokingManagement.entities.Service;
+import com.suraev.OnlineBokingManagement.entities.BranchService;
 import com.suraev.OnlineBokingManagement.service.BranchProvideService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -26,11 +22,17 @@ public class BranchProvideServiceController {
 
 
     @GetMapping("/services/{branchId}/all")
-    public ResponseEntity<List<Service>> getAllServiceByBranchId(@PathVariable Long branchId) {
+    public ResponseEntity<List<BranchService>> getAllServiceByBranchId(@PathVariable Long branchId) {
 
-        List<Service> allServices = branchProvideService.getAllServices(branchId);
-        return new ResponseEntity<>(allServices, HttpStatus.OK);
+        List<BranchService> allBranchServices = branchProvideService.getAllServices(branchId);
+        return new ResponseEntity<>(allBranchServices, HttpStatus.OK);
 
+    }
+
+    @PostMapping("/services/{branchId}/create")
+    public ResponseEntity<BranchService> createService(@PathVariable Long branchId, @RequestBody BranchService branchService) {
+
+        return new ResponseEntity<>(branchProvideService.addService(branchId, branchService),HttpStatus.CREATED);
     }
 
 }

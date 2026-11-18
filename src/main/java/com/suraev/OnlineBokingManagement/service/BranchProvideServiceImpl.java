@@ -2,11 +2,11 @@ package com.suraev.OnlineBokingManagement.service;
 
 
 import com.suraev.OnlineBokingManagement.entities.Branch;
+import com.suraev.OnlineBokingManagement.entities.BranchService;
 import com.suraev.OnlineBokingManagement.exception.NotFoundException;
 import com.suraev.OnlineBokingManagement.repository.BranchRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BranchProvideServiceImpl implements BranchProvideService {
@@ -14,16 +14,16 @@ public class BranchProvideServiceImpl implements BranchProvideService {
     private BranchRepository branchRepository;
 
     @Override
-    public List<com.suraev.OnlineBokingManagement.entities.Service> getAllServices(Long branchId) {
+    public List<BranchService> getAllServices(Long branchId) {
 
        return
-               branchRepository.findById(branchId).map(Branch::getServices)
+               branchRepository.findById(branchId).map(Branch::getBranchServices)
                        .orElseThrow(() -> new NotFoundException("Branch with id " + branchId + " does not exist"));
 
     }
 
     @Override
-    public com.suraev.OnlineBokingManagement.entities.Service getServiceById(Long id) {
+    public BranchService getServiceById(Long id) {
 
         return null;
     }
@@ -34,11 +34,11 @@ public class BranchProvideServiceImpl implements BranchProvideService {
     }
 
     @Override
-    public Branch addService(Long branchId,com.suraev.OnlineBokingManagement.entities.Service service) {
+    public BranchService addService(Long branchId, BranchService branchService) {
         Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new NotFoundException("Branch with id " + branchId + " does not exist"));
-        branch.addService(service);
+        branch.addService(branchService);
 
-       return branchRepository.save(branch);
+       return branchService;
 
     }
 }

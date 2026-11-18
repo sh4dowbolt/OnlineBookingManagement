@@ -21,7 +21,8 @@ public class Master {
     //private List<Photo> portfolio;
     //private List<RateNumber> totalRate;
     @OneToMany
-    private List<Service> services;
+    private List<BranchService> branchServices;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id")
     private Branch branchService;

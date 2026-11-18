@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 
 @Table(name = "master_services")
+@Embeddable
 public class MasterService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
