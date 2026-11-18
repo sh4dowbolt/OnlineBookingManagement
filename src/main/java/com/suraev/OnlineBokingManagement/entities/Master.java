@@ -3,6 +3,7 @@ package com.suraev.OnlineBokingManagement.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -23,9 +24,9 @@ public class Master {
     @OneToMany
     private List<BranchService> branchServices;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_id")
-    private Branch branchService;
+    @Column(name = "create_date")
+    private ZonedDateTime createDate;
+    @Column(name = "update_date")
+    private ZonedDateTime updateDate;
     //private List<Review> reviews;
-
 }

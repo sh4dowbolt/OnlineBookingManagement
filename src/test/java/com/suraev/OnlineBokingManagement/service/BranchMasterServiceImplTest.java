@@ -2,11 +2,14 @@ package com.suraev.OnlineBokingManagement.service;
 
 import com.suraev.OnlineBokingManagement.entities.Branch;
 import com.suraev.OnlineBokingManagement.entities.Master;
+import com.suraev.OnlineBokingManagement.entities.MasterBranch;
 import com.suraev.OnlineBokingManagement.exception.NotFoundException;
 import com.suraev.OnlineBokingManagement.repository.BranchRepository;
+import com.suraev.OnlineBokingManagement.repository.MasterBranchRepository;
 import com.suraev.OnlineBokingManagement.repository.MasterRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -14,6 +17,7 @@ import org.mockito.internal.verification.NoInteractions;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.verification.VerificationMode;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +35,8 @@ class BranchMasterServiceImplTest {
     private BranchRepository branchRepository;
     @Mock
     private MasterRepository masterRepository;
+    @Mock
+    private MasterBranchRepository masterBranchRepository;
 
     @Nested
     @DisplayName("method addMasterRightToBranch")
@@ -45,7 +51,7 @@ class BranchMasterServiceImplTest {
 
             Branch branch = createBranch(branchId);
 
-            Master savedMaster = createMasterWithId();
+            Master savedMaster = createMasterWithId(1L);
 
             //when
             when(branchRepository.findById(branchId)).thenReturn(Optional.of(branch));
@@ -93,25 +99,37 @@ class BranchMasterServiceImplTest {
         @Test
         void linkMasterToBranch_whenBothExists_shouldLinkAndSave() {
             Branch branch = createBranch(1L);
-            Master masterWithId = createMasterWithId();
+            Master masterWithId = createMasterWithId(1L);
 
 
-            when(branchRepository.findById(branch.getId())).thenReturn(Optional.of(branch));
-            when(masterRepository.findById(masterWithId.getId())).thenReturn(Optional.of(masterWithId));
-            when(branchRepository.save(branch)).thenReturn(branch);
-            when(masterRepository.save(masterWithId)).thenReturn(masterWithId);
+            when(branchRepository.findById(1L)).thenReturn(Optional.of(branch));
+            when(masterRepository.findById(1L)).thenReturn(Optional.of(masterWithId));
 
-            Master actualResult = branchMasterService.linkMasterToBranch(branch.getId(), masterWithId.getId());
+            when(masterBranchRepository.save(any(MasterBranch.class))).thenAnswer(x-> x.getArgument(0));
 
-            assertAll(
-                    () -> assertThat(actualResult.getId()).isEqualTo(1L),
-                    () -> assertThat(branch.getMasters()).contains(masterWithId),
-                    () -> assertThat(masterWithId.getBranchService().getId()).isEqualTo(1L)
-            );
+
+
+            MasterBranch actualResult = branchMasterService.linkMasterToBranch(1L, 1L);
+
+            assertThat(branch.getMasters()).extracting(Master::getId).containsOnly(1L);
+
+            ArgumentCaptor<MasterBranch> mbCaptor = ArgumentCaptor.forClass(MasterBranch.class);
+            verify(masterBranchRepository).save(mbCaptor.capture());
+            MasterBranch saved = mbCaptor.getValue();
+
+            assertThat(saved.getBranchId().getId()).isEqualTo(1L);
+            assertThat(saved.getMasterId().getId()).isEqualTo(1L);
+            assertThat(saved.getIsActive()).isTrue();
+            assertThat(saved.getIsPrimary()).isTrue();
+            assertThat(saved.getEndDate()).isEqualTo(LocalDateTime.MAX);
+
+            assertThat(actualResult).isSameAs(saved);
+
             verify(branchRepository).findById(1L);
             verify(masterRepository).findById(1L);
+
+            verify(masterRepository, never()).save(any());
             verify(branchRepository).save(branch);
-            verify(masterRepository).save(masterWithId);
 
         }
 
@@ -156,9 +174,9 @@ class BranchMasterServiceImplTest {
     }
 
 
-    private static Master createMasterWithId() {
+    private static Master createMasterWithId(Long masterId) {
         return Master.builder()
-                .id(1L)
+                .id(masterId)
                 .name("Valeria")
                 .phoneNumber("123")
                 .build();

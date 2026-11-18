@@ -10,8 +10,10 @@ import java.time.Duration;
 public class MasterService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "srv_id")
+    @Column(name = "id")
     private Long id;
+    private String name;
+    private String description;
     //private Photo photo;
     @Enumerated(EnumType.STRING)
     private Category category;

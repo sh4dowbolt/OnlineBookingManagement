@@ -125,9 +125,9 @@ class MasterControllerIT {
             Long branchId = 1L;
             Long masterId = 1L;
 
-            Master masterWithId = createMasterWithId();
+            //Master masterWithId = createMasterWithId(1L);
 
-            when(branchMasterService.linkMasterToBranch(eq(branchId), eq(masterId))).thenReturn(masterWithId);
+            //when(branchMasterService.linkMasterToBranch(eq(branchId), eq(masterId))).thenReturn(masterWithId);
 
             mockMvc.perform(post(MASTER_LINK_TO_BRANCH,branchId, masterId))
                     .andExpect(status().isCreated())

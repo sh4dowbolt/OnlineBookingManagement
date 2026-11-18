@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.Duration;
+
 @Entity
 @Table(name = "branch_services")
 @Builder
@@ -19,9 +22,14 @@ public class BranchService {
     @Column(name = "def")
     private String name;
     private String description;
+    private Category category;
+    private Duration duration;
+    private BigDecimal price;
+    private Boolean isActive;
     @ManyToOne
     @JoinColumn(name = "branch_id")
     @JsonIgnore
     private Branch branch;
+
 
 }

@@ -28,10 +28,10 @@ public class MasterController {
     }
 
     @PostMapping("/add/{branchId}/links/{masterId}")
-    public ResponseEntity<Master> linkMasterToBranch(@PathVariable Long branchId, @PathVariable Long masterId) {
+    /*public ResponseEntity<Master> linkMasterToBranch(@PathVariable Long branchId, @PathVariable Long masterId) {
         Master masterFromDb = branchMasterService.linkMasterToBranch(branchId, masterId);
         return new ResponseEntity<>(masterFromDb, HttpStatus.CREATED);
-    }
+    }*/
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteMaster(@PathVariable Long id) {
         masterService.deleteMaster(id);

@@ -42,7 +42,6 @@ public class Branch {
             masters = new ArrayList<>();
         }
         masters.add(master);
-        master.setBranchService(this);
 
         return true;
     }

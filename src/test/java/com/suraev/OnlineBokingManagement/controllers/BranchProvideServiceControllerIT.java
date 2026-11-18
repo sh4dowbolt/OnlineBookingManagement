@@ -46,10 +46,9 @@ class BranchProvideServiceControllerIT {
         void getAllServicesWithStatusIsOk_200() throws Exception {
 
             Long branchId = 1L;
-            Branch branch = new Branch();
 
-            List<BranchService> branchServiceList = of(new BranchService(1L,"cleaning","full", branch),
-                    new BranchService(2L,"cleaning","full", branch));
+            List<BranchService> branchServiceList = of(new BranchService(),
+                    new BranchService());
 
             //byte[] bodyToResponse = objectMapper.writeValueAsBytes(branchServiceList);
 
