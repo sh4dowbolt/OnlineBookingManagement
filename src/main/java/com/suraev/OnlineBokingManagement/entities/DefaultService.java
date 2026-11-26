@@ -14,7 +14,7 @@ import java.time.Duration;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BranchService {
+public class DefaultService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

@@ -1,13 +1,13 @@
 package com.suraev.OnlineBokingManagement.service;
 
-import com.suraev.OnlineBokingManagement.entities.BranchService;
+import com.suraev.OnlineBokingManagement.entities.DefaultService;
 
 import java.util.List;
 
 public interface BranchProvideService {
 
-    List<BranchService> getAllServices(Long branchId);
-    BranchService getServiceById(Long id);
+    List<DefaultService> getAllServices(Long branchId);
+    DefaultService getServiceById(Long id);
     void deleteServiceById(Long id);
-    BranchService addService(Long branchId, BranchService branchService);
+    DefaultService addService(Long branchId, DefaultService defaultService);
 }

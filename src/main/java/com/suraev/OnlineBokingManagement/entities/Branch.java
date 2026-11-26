@@ -34,7 +34,7 @@ public class Branch {
     private List<Photo> portfolio;*/
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<BranchService> branchServices;
+    private List<DefaultService> defaultServices;
 
 
     public boolean addMaster(Master master) {
@@ -46,14 +46,14 @@ public class Branch {
         return true;
     }
 
-    public boolean addService(BranchService branchService) {
-        if (branchServices == null) {
-            branchServices = new ArrayList<>();
+    public boolean addService(DefaultService defaultService) {
+        if (defaultServices == null) {
+            defaultServices = new ArrayList<>();
         }
 
-        branchServices.add(branchService);
+        defaultServices.add(defaultService);
 
-        branchService.setBranch(this);
+        defaultService.setBranch(this);
 
         return true;
     }

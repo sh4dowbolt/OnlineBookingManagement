@@ -1,7 +1,7 @@
 package com.suraev.OnlineBokingManagement.controllers;
 
 import com.suraev.OnlineBokingManagement.entities.Branch;
-import com.suraev.OnlineBokingManagement.entities.BranchService;
+import com.suraev.OnlineBokingManagement.entities.DefaultService;
 import com.suraev.OnlineBokingManagement.exception.NotFoundException;
 import com.suraev.OnlineBokingManagement.service.BranchProvideService;
 import org.junit.jupiter.api.Nested;
@@ -47,16 +47,16 @@ class BranchProvideServiceControllerIT {
 
             Long branchId = 1L;
 
-            List<BranchService> branchServiceList = of(new BranchService(),
-                    new BranchService());
+            List<DefaultService> defaultServiceList = of(new DefaultService(),
+                    new DefaultService());
 
             //byte[] bodyToResponse = objectMapper.writeValueAsBytes(branchServiceList);
 
-            when(branchProvideService.getAllServices(branchId)).thenReturn(branchServiceList);
+            when(branchProvideService.getAllServices(branchId)).thenReturn(defaultServiceList);
 
             MvcResult mvcResult = mockMvc.perform(get(GET_SERVICES_BY_BRANCH, branchId))
                     .andExpect(status().isOk())
-                    .andExpect(content().json(objectMapper.writeValueAsString(branchServiceList)))
+                    .andExpect(content().json(objectMapper.writeValueAsString(defaultServiceList)))
                     .andReturn();
 
             //byte[] MvcByteResult = mvcResult.getResponse().getContentAsByteArray();
@@ -73,9 +73,9 @@ class BranchProvideServiceControllerIT {
             Long branchId = 1L;
             Branch branch = new Branch();
 
-            List<BranchService> branchServiceList = Collections.emptyList();
+            List<DefaultService> defaultServiceList = Collections.emptyList();
 
-            when(branchProvideService.getAllServices(branchId)).thenReturn(branchServiceList);
+            when(branchProvideService.getAllServices(branchId)).thenReturn(defaultServiceList);
 
 
             mockMvc.perform(get(GET_SERVICES_BY_BRANCH, branchId))
@@ -109,16 +109,16 @@ class BranchProvideServiceControllerIT {
         void addServiceToBranch_returnStatusCreated() throws Exception {
 
             Long branchId = 1L;
-            BranchService branchService = BranchService.builder().id(1L).description("testing").build();
+            DefaultService defaultService = DefaultService.builder().id(1L).description("testing").build();
 
 
-            when(branchProvideService.addService(anyLong(), any(BranchService.class))).thenReturn(branchService);
+            when(branchProvideService.addService(anyLong(), any(DefaultService.class))).thenReturn(defaultService);
 
 
             mockMvc.perform(
                     post(CREATE_DEFAULT_SERVICE, branchId)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(branchService)))
+                            .content(objectMapper.writeValueAsString(defaultService)))
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.description").value("testing"))
                     .andExpect(jsonPath("$.id").value(1L));
@@ -132,15 +132,15 @@ class BranchProvideServiceControllerIT {
         @Test
         void addServiceToBranch_shouldReturnNotFoundIfBranchDoesNotExist() throws Exception {
             Long branchId = 1L;
-            BranchService branchService = BranchService.builder().id(1L).description("testing").build();
+            DefaultService defaultService = DefaultService.builder().id(1L).description("testing").build();
 
 
-            when(branchProvideService.addService(anyLong(), any(BranchService.class))).thenThrow(NotFoundException.class);
+            when(branchProvideService.addService(anyLong(), any(DefaultService.class))).thenThrow(NotFoundException.class);
 
             mockMvc.perform(
                             post(CREATE_DEFAULT_SERVICE, branchId)
                                     .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(branchService)))
+                                    .content(objectMapper.writeValueAsString(defaultService)))
                     .andExpect(status().isNotFound());
 
         }

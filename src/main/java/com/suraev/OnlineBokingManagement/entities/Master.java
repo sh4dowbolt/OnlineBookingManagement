@@ -22,7 +22,7 @@ public class Master {
     //private List<Photo> portfolio;
     //private List<RateNumber> totalRate;
     @OneToMany
-    private List<BranchService> branchServices;
+    private List<DefaultService> defaultServices;
 
     @Column(name = "create_date")
     private ZonedDateTime createDate;

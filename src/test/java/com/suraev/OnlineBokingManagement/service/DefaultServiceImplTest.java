@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class BranchServiceImplTest {
+class DefaultServiceImplTest {
 
     @InjectMocks
     private BranchServiceImpl branchService;
