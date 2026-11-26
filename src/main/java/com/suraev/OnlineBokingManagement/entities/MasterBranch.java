@@ -11,12 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "master_branch",
-uniqueConstraints = {
-        @UniqueConstraint(name = "uniq_cnst_master_and_branch", columnNames = {"masterId", "branchId"})
-})
-@Check(constraints = "endDate >= startDate")
-
+@Table(name = "master_branch")
 @Getter
 @Setter
 @Builder
